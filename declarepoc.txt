@@ -1,0 +1,71 @@
+#scenario1:
+'''declare var1 dt1,var2 dt2,var3 dt3''' #check next line(whether first word of that 
+                                        #particular line is starting with keyword or not)
+##scenario2
+'''declare var1 dt1,var2 dt2,
+     var3 dt3,var4 dt4,
+     var5 dt5'''
+###scenario3
+'''declare var1 dt1,var2 dt2    declare var1 dt1;
+    ,var3 dt3,var4 dt4           
+    ,var5 dt5'''
+dict1={} 
+list12=[]
+oy=[]  
+patterns={'set':'set','insert':'insert','delete':'delete','update':'update'}    
+list1=tuple(patterns)
+print(list1)#tuple consists of dict keys
+p=["stmt5","stmt1","declare var1 dt1,var2 dt2,var9 dt9","--var3 dt3","/n","--comment9","/n","/n","--comment2",",var3 dt3,var4 dt4","--comment4","/n","/n","set stmt1"]# list 
+temp=""
+q=[]
+flag_declare=False
+for i in range(len(p)):
+    if p[i].upper().startswith("DECLARE") :
+        t=p[i]
+        s=i #starting point where if condition is true
+        flag_declare=True
+    elif p[i].startswith("--"):
+        l=i
+        oy.append(l)
+        dict1.update({l:p[i]})
+        continue
+    elif not(p[i].strip().startswith(list1)) and flag_declare == True: 
+        t=t+p[i]
+    
+    elif p[i].strip().lower().startswith(list1):
+        q=i
+        break
+print(t)   
+del p[s:q]
+print(p)
+k=t.split(',')
+o=t.split()
+list2=[]
+list2.insert(0,k[0]+';')
+for x in (n+1 for n in range(len(k)-1)):
+    list2.insert(x,o[0]+' '+k[x]+';')
+print(list2)
+for e in reversed(list2):
+    p.insert(s,e)
+print(p)
+def recu(p):
+    for i in range(len(p)):
+        if p[i].__contains__('/n;'):  
+            p[i]=p[i].replace('/n;',';')
+            p.insert(i+1,'/n')
+            recu(p)
+recu(p)
+
+print(p)
+print(oy)
+print(dict1)
+id=0
+for i in range(len(p)):
+    if id in dict1:
+        list12.append(dict1[id])
+        
+    list12.append(p[i])
+    id = id+1
+p=list12
+print(p)
+    
